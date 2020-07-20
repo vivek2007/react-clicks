@@ -8,32 +8,54 @@ const SignUpForm =()=>{
 
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [isError, setIsError] = useState('');
-    const [name, setName] = useState("");
+    const [username, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { setAuthTokens } = useAuth();
 
     const handleSubmit = (event) => {
+
         event.preventDefault();
-            axios.post("https://fullstackdevpro.work/laravel-jwt-master/api/register", {
-                name,
-                email,
-                password
-            }).then(result => {
-                if (result.status === 200) {
-                    setAuthTokens(result.data, email );
+            // axios.post("http://18.237.7.208:3000/api/v1/auth/signup", {
+            //     username,
+            //     email,
+            //     password
+            // }).then(result => {
+            //     if (result.status === 200) {
+            //         setAuthTokens(result.data, email );
+            //         setLoggedIn(true);
+            //     }
+            // }).catch(e => {
+            //     console.log(e.message);
+            //   if(e.message==='Network Error') {
+            //     setIsError(e.message)
+            //   } else if (e.message==='Request failed with status code 400') {
+            //     setIsError('Email has already been taken')
+            // } else {
+            //     setIsError('')
+            //   }
+            // });
+
+
+            axios({
+                method: 'post',
+                url: `http://18.237.7.208:3000/v1/auth/signup`,
+                // headers: {
+                //     'Content-type': 'application/json',
+                //   },
+                data: `username=${username}&email=${email}&password=${password}`
+              })
+                .then(response => {
+                    console.log(response)
+                  if (response.data.status === 1) {
+                    setAuthTokens(response.data, email );
                     setLoggedIn(true);
-                }
-            }).catch(e => {
-                console.log(e.message);
-              if(e.message==='Network Error') {
-                setIsError(e.message)
-              } else if (e.message==='Request failed with status code 400') {
-                setIsError('Email has already been taken')
-            } else {
-                setIsError('')
-              }
-            });
+                  }  else if(response.data.status == 0) {
+                    setIsError('')
+                  }
+                })
+                .catch(e=>{
+                    console.log(e,'error')})
             
     }
 
@@ -55,7 +77,7 @@ const SignUpForm =()=>{
                                     <div className="form-group text_box">
                                         <label className="f_p text_c f_400">Username</label>
                                         <input type="text"
-                                            value={name}
+                                            value={username}
                                             onChange={e => {
                                                 setName(e.target.value);
                                             }}
