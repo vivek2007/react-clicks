@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {toastmsg} from '../Helper';
 import { useAuth } from "../context/auth";
 
-const SignInFrom =()=>{
+const ForgotPassword =()=>{
 
      const [isLoggedIn, setLoggedIn] = useState(false);
      const [isError, setIsError] = useState('');
@@ -37,14 +37,13 @@ const SignInFrom =()=>{
 
             axios({
                 method: 'post',
-                url: `http://localhost:3000/v1/auth/login`,
+                url: `http://localhost:3000/v1/auth/forgot-password`,
                 // headers: {
                 //     'Content-type': 'application/json',
                 //   },
-                data: `email=${email}&password=${password}`
+                data: `email=${email}`
               })
                 .then(response => {
-                    console.log(response)
                   if (response.data.status === 1) {
                     toastmsg(response.data.message,toast.POSITION.TOP_CENTER,3000)
                     setAuthTokens(response.data, email );
@@ -62,7 +61,7 @@ const SignInFrom =()=>{
 
       if (isLoggedIn) {
            localStorage.setItem("username", email);
-            return  <Redirect to="/order" /> ;
+            return  <Redirect to="/sign-in" /> ;
         } 
           
 
@@ -73,11 +72,11 @@ const SignInFrom =()=>{
                     <div className="row">
                         <div className="col-lg-6">
                             <div className="login_info">
-                                <h2 className="f_p f_600 f_size_24 t_color3 mb_40">Sign In</h2>
+                                <h2 className="f_p f_600 f_size_24 t_color3 mb_40">Forgot Password</h2>
                                 <form onSubmit={handleSubmit} className="login-form sign-in-form">
                                     <div className="form-group text_box">
-                                        <label className="f_p text_c f_400">Email or Name</label>
-                                        <input type="text"
+                                        <label className="f_p text_c f_400">Email</label>
+                                        <input type="email"
                                             value={email}
                                             onChange={e => {
                                                 setUserName(e.target.value);
@@ -85,16 +84,6 @@ const SignInFrom =()=>{
                                             className="form-control"
                                             placeholder="example@example.com" 
                                             required autoFocus/>
-                                    </div>
-                                    <div className="form-group text_box">
-                                        <label className="f_p text_c f_400">Password</label>
-                                        <input type="password"
-                                            value={password}
-                                            onChange={e => {
-                                            setPassword(e.target.value);
-                                            }}
-                                        className="form-control" placeholder="******" required />
-
                                     </div>
                                     <div className="extra mb_20">
                                         {/* <div className="checkbox remember">
@@ -113,21 +102,7 @@ const SignInFrom =()=>{
 
 
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <button type="submit" className="btn_three">Log in</button>
-                                        <div className="social_text d-flex ">
-                                            <div className="lead-text">
-                                                <span className="float-right mt-3"> Don't have an account? 
-                                                 <Link  to="/sign-up" > Create Now</Link></span></div>
-                                            
-                                        </div>
-                                    </div>
-
-
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <div className="social_text d-flex ">
-                                            <div className="lead-text"> <span className="float-right mt-3">    <Link  to="/forgot-password" > Forgot Password</Link></span></div>
-                                            
-                                        </div>
+                                        <button type="submit" className="btn_three">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -142,4 +117,4 @@ const SignInFrom =()=>{
         </section>
     )
 }
-export default SignInFrom;
+export default ForgotPassword;

@@ -1,5 +1,8 @@
 import React, { useState  } from "react";
 import { Link,Redirect } from "react-router-dom";
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {toastmsg} from '../Helper';
 import axios from 'axios';
 import { useAuth } from "../context/auth";
 
@@ -39,7 +42,7 @@ const SignUpForm =()=>{
 
             axios({
                 method: 'post',
-                url: `http://18.237.7.208:3000/v1/auth/signup`,
+                url: `http://localhost:3000/v1/auth/signup`,
                 // headers: {
                 //     'Content-type': 'application/json',
                 //   },
@@ -48,9 +51,11 @@ const SignUpForm =()=>{
                 .then(response => {
                     console.log(response)
                   if (response.data.status === 1) {
+                    toastmsg(response.data.message,toast.POSITION.TOP_CENTER,3000)
                     setAuthTokens(response.data, email );
                     setLoggedIn(true);
                   }  else if(response.data.status == 0) {
+                    toastmsg(response.data.message,toast.POSITION.TOP_CENTER,3000)
                     setIsError('')
                   }
                 })
@@ -138,6 +143,7 @@ const SignUpForm =()=>{
                         </div>
                     </div>
                 </div>
+                <ToastContainer closeButton={false} hideProgressBar={true} />
             </div>
         </section>
     )
