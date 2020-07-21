@@ -42,7 +42,7 @@ const SignUpForm =()=>{
 
             axios({
                 method: 'post',
-                url: `http://localhost:3000/v1/auth/signup`,
+                url: `http://18.237.7.208:3000/v1/auth/signup`,
                 // headers: {
                 //     'Content-type': 'application/json',
                 //   },

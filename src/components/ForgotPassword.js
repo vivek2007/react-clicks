@@ -37,7 +37,7 @@ const ForgotPassword =()=>{
 
             axios({
                 method: 'post',
-                url: `http://localhost:3000/v1/auth/forgot-password`,
+                url: `http://18.237.7.208:3000/v1/auth/forgot-password`,
                 // headers: {
                 //     'Content-type': 'application/json',
                 //   },
