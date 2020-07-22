@@ -12,6 +12,7 @@ import Contact from "./Pages/Contact";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 import ForgotPassword from "./Pages/ForgotPassword"
+import ChangePassword from "./Pages/ChangePassword"
 import Order from "./Pages/Order";
 import NotFound from "./Pages/404";
 
@@ -37,6 +38,7 @@ const App = () => {
             <ScrollToTopRoute path="/sign-in" component={SignIn} />
             <ScrollToTopRoute path="/sign-up" component={SignUp} />
             <ScrollToTopRoute path="/forgot-password" component={ForgotPassword} />
+            <ScrollToTopRoute path="/change-password/:token" component={ChangePassword} />
            {/* <ScrollToTopRoute path="/billion-clicks" component={BillionClicks} /> --> */ }
             <ScrollToTopRoute>
               <PrivateRoute path="/order" component={Order} />

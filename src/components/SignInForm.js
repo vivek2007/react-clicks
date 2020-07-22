@@ -47,8 +47,10 @@ const SignInFrom =()=>{
                     console.log(response)
                   if (response.data.status === 1) {
                     toastmsg(response.data.message,toast.POSITION.TOP_CENTER,3000)
-                    setAuthTokens(response.data, email );
-                    setLoggedIn(true);
+                    setTimeout(()=>{
+                        setAuthTokens(response.data, email );
+                        setLoggedIn(true);
+                    },3000)
                   }  else if(response.data.status == 0) {
                     toastmsg(response.data.message,toast.POSITION.TOP_CENTER,3000)
                     setIsError('')

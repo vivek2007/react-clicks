@@ -1,5 +1,5 @@
 
-import React, { useState  } from "react";
+import React, { useState,useParams  } from "react";
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer,toast } from 'react-toastify';
@@ -7,49 +7,35 @@ import 'react-toastify/dist/ReactToastify.css';
 import {toastmsg} from '../Helper';
 import { useAuth } from "../context/auth";
 
-const ForgotPassword =()=>{
-
+const ChangePassword =()=>{
+    let parts = window.location.pathname.split('/')
+    let id =parts.pop() || parts.pop();
+    console.log(window.location.pathname.split('/'),'sdfe')
      const [isLoggedIn, setLoggedIn] = useState(false);
      const [isError, setIsError] = useState('');
-     const [email, setUserName] = useState('');
      const [password, setPassword] = useState('');
+     const [confirmPassword, setConfirmPassword] = useState('')
      const { setAuthTokens } = useAuth();
 
      const handleSubmit = (event) => {
         event.preventDefault();
-            // axios.post("https://fullstackdevpro.work/laravel-jwt-master/api/login", {
-            //     email,
-            //     password
-            // }).then(result => {
-            //     if (result.status === 200) {
-            //         setAuthTokens(result.data, email );
-            //         setLoggedIn(true);
-            //     }
-            // }).catch(e => {
-            //   if(e.message==='Network Error') {
-            //     setIsError(e.message)
-            //   } else if (e.message==='Request failed with status code 400') {
-            //     setIsError('Invalid Email or Password')
-            // } else {
-            //     setIsError('')
-            //   }
-            // });
 
             axios({
                 method: 'post',
-                url: `http://18.237.7.208:3000/v1/auth/forgot-password`,
+                url: `http://18.237.7.208:3000/v1/auth/change-password`,
                 // headers: {
                 //     'Content-type': 'application/json',
                 //   },
-                data: `email=${email}`
+                data: `password=${password}&id=${id}`
               })
                 .then(response => {
                   if (response.data.status === 1) {
                     toastmsg(response.data.message,toast.POSITION.TOP_CENTER,3000)
                     setTimeout(()=>{
-                        setAuthTokens(response.data, email );
+                        setAuthTokens(response.data, password );
                         setLoggedIn(true);
                     },3000)
+                   
                   }  else if(response.data.status == 0) {
                     toastmsg(response.data.message,toast.POSITION.TOP_CENTER,3000)
                     setIsError('')
@@ -62,7 +48,7 @@ const ForgotPassword =()=>{
       
 
       if (isLoggedIn) {
-           localStorage.setItem("username", email);
+           localStorage.setItem("username", password);
             return  <Redirect to="/sign-in" /> ;
         } 
           
@@ -74,29 +60,30 @@ const ForgotPassword =()=>{
                     <div className="row">
                         <div className="col-lg-6">
                             <div className="login_info">
-                                <h2 className="f_p f_600 f_size_24 t_color3 mb_40">Forgot Password</h2>
+                                <h2 className="f_p f_600 f_size_24 t_color3 mb_40">Change Password</h2>
                                 <form onSubmit={handleSubmit} className="login-form sign-in-form">
                                     <div className="form-group text_box">
-                                        <label className="f_p text_c f_400">Email</label>
-                                        <input type="email"
-                                            value={email}
+                                        <label className="f_p text_c f_400">New Password</label>
+                                        <input type="password"
+                                            value={password}
                                             onChange={e => {
-                                                setUserName(e.target.value);
+                                            setPassword(e.target.value);
                                             }}
-                                            className="form-control"
-                                            placeholder="example@example.com" 
-                                            required autoFocus/>
+                                        className="form-control" placeholder="******" required />
+
                                     </div>
+                                    {/* <div className="form-group text_box">
+                                        <label className="f_p text_c f_400">Confirm Password</label>
+                                        <input type="password"
+                                            value={confirmPassword}
+                                            onChange={e => {
+                                            setConfirmPassword(e.target.value);
+                                            }}
+                                        className="form-control" placeholder="******" required />
+
+                                    </div> */}
                                     <div className="extra mb_20">
-                                        {/* <div className="checkbox remember">
-                                            <label>
-                                                <input type="checkbox"/> Keep me Signed in
-                                            </label>
-                                        </div>*/}
                                        
-                                        {/*<div className="forgotten-password">
-                                            <a href="/#">Forgot Password?</a>
-                                        </div> */}
 
                                         <span style={{color:"red"}}>{isError}</span>
 
@@ -119,4 +106,4 @@ const ForgotPassword =()=>{
         </section>
     )
 }
-export default ForgotPassword;
+export default ChangePassword;
